@@ -67,7 +67,7 @@ info.show();
 
 
 const handleSelectChange = (event) => {
-	const opt = parseInt(event.target.value);
+	const opt = Number(event.target.value);
 	const strategy = strategies[opt];
 	info.setStrategy(strategy);
 
