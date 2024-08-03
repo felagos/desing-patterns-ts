@@ -23,6 +23,17 @@ class Subject {
 	}
 }
 
+class Observer {
+
+	constructor(fn) {
+		this.fn = fn;
+	}
+
+	update(data) {
+		this.fn(data);
+	}
+}
+
 class ItemSubject extends Subject {
 	constructor() {
 		super();
@@ -49,6 +60,11 @@ const itemSubject = new ItemSubject();
 const div1Obs = new HtmlElementObserver(document.querySelector('#div1'));
 const div2Obs = new HtmlElementObserver(document.querySelector('#div2'));
 const div3Obs = new HtmlElementObserver(document.querySelector('#div3'));
+const obs1 = new Observer(data => {
+	const div = document.querySelector('#div3');
+	div.innerHTML = `length: ${data.length}`;
+});
 
 itemSubject.subscribe(div1Obs);
+itemSubject.subscribe(obs1);
 	
