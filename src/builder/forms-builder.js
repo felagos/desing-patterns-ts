@@ -8,12 +8,13 @@ class Form {
 	getContent() {
 		return `
 			<form action="${this.action}" method="POST">
-				${this.controls.map(control => (
+			${this.controls.reduce((acc, control) => (
+					acc + 
 					`<div class="form-item">
-						${this.getLabel(control)}
-						${this.getInput(control)}
+							${this.getLabel(control)}
+							${this.getInput(control)}
 					</div>`
-				))}
+				), '')}
 				<button type="submit">Submit</button>
 			</form>
 		`;
@@ -65,9 +66,32 @@ class FormBuilder {
 
 }
 
+class FormDirector {
+
+	#formBuilder;
+
+	constructor(builder) {
+		this.setFormBuilder(builder);
+	}
+
+	setFormBuilder(builder) {
+		this.#formBuilder = builder;
+	}
+
+	createPeopleForm() {
+		return this.#formBuilder
+		.setText('name', 'Name')
+		.setText('age', 'Age')
+		.setText('email', 'Email');
+	}
+
+}
+
 const form1 = document.querySelector('.form1');
+const form2 = document.querySelector('.form2');
 
 const formBuilder = new FormBuilder();
+const formDirector = new FormDirector(new FormBuilder());
 
 const formPeople = formBuilder
 	.setAction('/people')
@@ -76,3 +100,4 @@ const formPeople = formBuilder
 	.build();
 
 form1.innerHTML = formPeople.getContent();
+form2.innerHTML = formDirector.createPeopleForm().build().getContent();
